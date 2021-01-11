@@ -1,0 +1,19 @@
+<template>
+    <lightning-tile 
+        label={recordObj.name} 
+        href={recordObj.href} 
+        type="media" 
+        class="slds-tile slds-media" 
+        actions={actions}
+        onactiontriggered={handleAction}> 
+    <lightning-icon slot="media" icon-name="standard:record" size="small"></lightning-icon>
+        <div class="slds-tile__detail">
+        <dl class="slds-list_horizontal slds-wrap">
+            <template for:each={recordObj.fields} for:item="field">
+                <dt key={field.label} class="slds-item_label slds-text-color_weak slds-truncate" title="First Label">{field.label}</dt>
+                <dd key={field.label} class="slds-item_detail slds-truncate" title="Description for first label">{field.value}</dd>
+            </template>
+        </dl>
+        </div>
+    </lightning-tile>   
+</template>

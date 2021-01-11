@@ -1,0 +1,69 @@
+<template>
+    <!--Modal dialog box for editing nested records in component-->
+    <c-related-list-custom-record-edit-modal
+        if:true={isEditModalOpen}
+        object-name={objectName}
+        edit-or-new={editOrNew}
+        existing-record-id={existingRecordId}
+        oncloserecordeditmodal={closeRecordEditModalEvent}
+    >
+    </c-related-list-custom-record-edit-modal>
+    <!--Modal dialog box for approving or rejecting deletion of nested record-->
+    <c-related-list-custom-record-delete-modal
+    if:true={isDeleteModalOpen}
+    object-name={objectName}
+    record-id={existingRecordId}
+    onclosedeletemodal={closeRecordDeleteModalEvent}
+    >
+    </c-related-list-custom-record-delete-modal>    
+    <!--Modal dialog box for selecting new fields to display in the component based on field metadata-->
+    <c-related-list-custom-field-selection-modal
+            if:true={isModalOpen}
+            is-modal-open={isModalOpen}
+            field-list-clone={fieldListClone}
+            selected-meta-field-name={selectedMetaFieldName}
+            selected-field-name={selectedFieldName}
+            onselectedfield={handleComboBoxChangeEvent}
+            onclosecombomodal={handleComboBoxCloseEvent}>
+    </c-related-list-custom-field-selection-modal>
+      
+   <lightning-card icon-name="standard:record" size="large">
+    <div slot="title">
+        <b><p>{pluralsObjectName}</p></b>
+    </div>
+    <div slot="actions">
+        <!--Dropdown menu for selecting which field to alter within component-->
+        <lightning-button label="New" title="Create New Record" onclick={handleNewButtonClick} class="slds-m-left_x-small"></lightning-button>
+        <lightning-button-menu alternative-text="Show menu" variant="border-filled" icon-name="utility:settings" >
+            <lightning-menu-item value="field1" label="Field 1" onclick={openModal}></lightning-menu-item>
+            <lightning-menu-item value="field2" label="Field 2" onclick={openModal}></lightning-menu-item>
+            <lightning-menu-item value="field3" label="Field 3" onclick={openModal}></lightning-menu-item>
+        </lightning-button-menu>
+    </div>
+    <div class="slds-m-around_medium">    
+        <div if:true={records}>  
+            <lightning-layout multiple-rows="true">
+            <template for:each={records} for:item="rec"> 
+                <lightning-layout-item key={rec.id} padding="around-small" size="6">
+                    <!--Nested component for representing queried records-->
+                    <c-related-list-custom-tile
+                    key={rec.id}
+                    record-obj={rec}
+                    ontileedit={onTileEditEvent}
+                    ontiledelete={onTileDeleteEvent}
+                    >
+                    </c-related-list-custom-tile>  
+            </lightning-layout-item>
+            </template>  
+
+            
+        </lightning-layout>
+        </div>  
+
+    </div>
+    <div slot="footer">
+        <a href={viewAllHref}>View All</a>
+    </div>      
+
+</lightning-card>  
+</template>
